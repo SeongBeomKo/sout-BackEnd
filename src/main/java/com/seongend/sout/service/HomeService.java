@@ -9,8 +9,6 @@ import com.seongend.sout.repository.PostRepository;
 import com.seongend.sout.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,26 +20,16 @@ public class HomeService {
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
 
-    @Transactional
     public List<PostResponseDto> findAllPost() {
         List<Post> posts = postRepository.findAll();
         List<PostResponseDto> allPosts = new ArrayList<>();
         for(Post post : posts) {
-            List<CommentResponseDto> allComments = findAllComment(post.getId());
-            PostResponseDto responseDto = new PostResponseDto(
-                    userRepository.getById(post.getUserId()).getNickname(),
-                    post.getContent(),
-                    post.getId(),
-                    post.getModifiedAt(),
-                    post.getUrl(),
-                    allComments
-                    );
+            PostResponseDto responseDto = createPostDto(post);
             allPosts.add(responseDto);
         }
         return allPosts;
     }
 
-    @Transactional
     public List<CommentResponseDto> findAllComment(long postId) {
         List<CommentResponseDto> allComments = new ArrayList<>();
         List<Comment> comments = commentRepository.findAllByPostId(postId);
@@ -51,5 +39,30 @@ public class HomeService {
                     comment.getContent(),
                     comment.getModifiedAt()));
         return allComments;
+    }
+
+    public List<PostResponseDto> searchPosts(String keyword) {
+        List<Post> posts = postRepository.findAll();
+        List<PostResponseDto> searchedPosts = new ArrayList<>();
+        for(Post post : posts) {
+            if(userRepository.getById(post.getUserId()).getNickname().contains(keyword)
+            || post.getContent().contains(keyword)) {
+                PostResponseDto responseDto = createPostDto(post);
+                searchedPosts.add(responseDto);
+            }
+        }
+        return searchedPosts;
+    }
+
+    public PostResponseDto createPostDto(Post post) {
+        List<CommentResponseDto> allComments = findAllComment(post.getId());
+        return new PostResponseDto(
+                userRepository.getById(post.getUserId()).getNickname(),
+                post.getContent(),
+                post.getId(),
+                post.getModifiedAt(),
+                post.getUrl(),
+                allComments
+        );
     }
 }
