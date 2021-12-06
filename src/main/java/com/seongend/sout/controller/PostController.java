@@ -1,11 +1,14 @@
 package com.seongend.sout.controller;
 
 import com.seongend.sout.dto.PostRequestDto;
+import com.seongend.sout.dto.PostResponseDto;
 import com.seongend.sout.entity.Post;
 import com.seongend.sout.repository.PostRepository;
 import com.seongend.sout.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -34,6 +37,24 @@ public class PostController {
     *   return PostService.createPosts(requestDto, userId);
     * }
     *  */
+
+    @GetMapping("/")
+    public List<Post> showPosts() {
+        return PostRepository.findAllByOrderByModifiedAtDesc();
+    } // 이런 식으로 할 거면 PostResponseDto를 따로 설정할 필요가 없는 건가?
+
+    /*
+    * @GetMapping("/")
+    * public List<PostResponseDto> showDtoPosts() {
+    *   return PostService.showDtoPosts();
+    * }
+    * */
+
+    @PutMapping("/newpost/{postId}") // url을 그냥 /{postId}로 해도 괜찮지 않을까
+    public Long updatePosts(@PathVariable Long postId, @RequestBody PostRequestDto requestDto) {
+        PostService.update(postId, requestDto);
+        return postId;
+    }
 
     @DeleteMapping("/{postId}")
     public Long deletePosts(@PathVariable Long postId) {
