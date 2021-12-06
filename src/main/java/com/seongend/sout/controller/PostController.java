@@ -18,12 +18,6 @@ public class PostController {
         PostService.createPosts(requestDto);
     }
 
-    @PutMapping("/newpost/{postId}") // url을 그냥 /{postId}로 해도 괜찮지 않을까
-    public Long updatePosts(@PathVariable Long postId, @RequestBody PostRequestDto requestDto) {
-        PostService.update(postId, requestDto);
-        return postId;
-    }
-
     @DeleteMapping("/{postId}")
     public Long deletePosts(@PathVariable Long postId) {
         PostRepository.deleteById(postId);

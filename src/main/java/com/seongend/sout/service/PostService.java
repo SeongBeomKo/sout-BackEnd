@@ -20,14 +20,4 @@ public class PostService {
         PostRepository.save(post);
     }
 
-
-    @Transactional
-    public Long update(Long postId, PostRequestDto requestDto) throws IllegalArgumentException {
-        Post post = PostRepository.findById(postId).orElseThrow(
-                () -> new IllegalArgumentException("해당 아이디의 게시글이 존재하지 않습니다.")
-        );
-        post.update(requestDto);
-        return post.getId();
-    }
-
 }
