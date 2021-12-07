@@ -12,20 +12,25 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class PostService {
 
-    private final PostRepository PostRepository;
+    private final PostRepository postRepository;
 
     @Transactional
     public void createPosts(PostRequestDto requestDto, Long userId) {
         Post post = new Post(requestDto, userId);
-        PostRepository.save(post);
+        postRepository.save(post);
     }
 
     @Transactional
     public Long update(Long postId, PostRequestDto requestDto) {
-        Post post = PostRepository.findById(postId).orElseThrow(
+        Post post = postRepository.findById(postId).orElseThrow(
                 () -> new IllegalArgumentException("해당 아이디의 게시글이 존재하지 않습니다.")
         );
         post.update(requestDto);
         return post.getId();
+    }
+
+    public Long deletePosts(Long postId) {
+        postRepository.deleteById(postId);
+        return postId;
     }
 }
