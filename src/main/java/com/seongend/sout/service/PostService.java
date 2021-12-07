@@ -15,13 +15,13 @@ public class PostService {
     private final PostRepository PostRepository;
 
     @Transactional
-    public void createPosts(PostRequestDto requestDto) {
-        Post post = new Post(requestDto);
+    public void createPosts(PostRequestDto requestDto, Long userId) {
+        Post post = new Post(requestDto, userId);
         PostRepository.save(post);
     }
 
     @Transactional
-    public Long update(Long postId, PostRequestDto requestDto) throws IllegalArgumentException {
+    public Long update(Long postId, PostRequestDto requestDto) {
         Post post = PostRepository.findById(postId).orElseThrow(
                 () -> new IllegalArgumentException("해당 아이디의 게시글이 존재하지 않습니다.")
         );

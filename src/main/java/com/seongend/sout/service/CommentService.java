@@ -17,15 +17,14 @@ public class CommentService {
     private final CommentRepository CommentRepository;
 
     @Transactional
-    public Comment createComments(Long postId, CommentRequestDto requestDto) throws NullPointerException {
+    public void createComments(Long postId, CommentRequestDto requestDto, Long userId) throws NullPointerException {
 
         Post post = PostRepository.findById(postId).orElse(null);
         if (post == null) {
             throw new NullPointerException("해당 게시글 정보가 존재하지 않습니다.");
         }
 
-        Comment comment = new Comment(post, requestDto);
+        Comment comment = new Comment(post, requestDto, userId);
         CommentRepository.save(comment);
-        return comment;
     }
 }

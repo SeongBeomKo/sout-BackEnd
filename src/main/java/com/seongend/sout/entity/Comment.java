@@ -24,9 +24,9 @@ public class Comment extends Timestamped{
     @Column(nullable = false)
     private Long userId;
 
-    public Comment(Post post, CommentRequestDto requestDto) {
+    public Comment(Post post, CommentRequestDto requestDto, Long userId) {
         this.post = post;
         this.content = requestDto.getContent();
-        this.userId = 1L;
+        this.userId = userId;
     }
 }
