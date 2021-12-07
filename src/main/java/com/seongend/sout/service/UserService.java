@@ -6,6 +6,7 @@ import com.seongend.sout.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -26,5 +27,14 @@ public class UserService {
         // 유저 생성
         User user = new User(requestDto, enPassword);
         userRepository.save(user); // DB 저장
+    }
+
+    @Transactional
+    public void editProfile(SignupRequestDto requestDto) {
+        User user = userRepository.findByUsername(requestDto.getEmail()).orElseThrow(
+                () -> new NullPointerException("계정이 없습니다."));
+
+        String enPassword = passwordEncoder.encode(requestDto.getPassword());
+        user.update(requestDto, enPassword);
     }
 }
