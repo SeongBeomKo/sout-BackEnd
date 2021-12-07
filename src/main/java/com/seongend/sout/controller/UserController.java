@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class UserController {
     private final UserService userService;
-    private final KakaoUserService kakaoUserService;
+    //private final KakaoUserService kakaoUserService;
 
     //회원가입
     @PostMapping("/user/signup")
@@ -26,9 +26,9 @@ public class UserController {
     public void editProfile(@RequestBody SignupRequestDto requestDto) { userService.editProfile(requestDto); }
 
     // kakao 로그인
-    @GetMapping("/user/kakao/callback")
-    public void kakaoLogin(@RequestParam String code) throws JsonProcessingException {
-        // authorizedCode: 카카오 서버로부터 받은 인가 코드
-        kakaoUserService.kakaoLogin(code);
-    }
+//    @GetMapping("/user/kakao/callback")
+//    public void kakaoLogin(@RequestParam String code) throws JsonProcessingException {
+//        // authorizedCode: 카카오 서버로부터 받은 인가 코드
+//        kakaoUserService.kakaoLogin(code);
+//    }
 }

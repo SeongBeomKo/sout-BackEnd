@@ -45,6 +45,7 @@ public class User {
         this.username = email;
         this.nickname = nickname;
         this.password = encodedPassword;
+        this.interest = "미설정";
         this.kakaoId = kakaoId;
     }
 
