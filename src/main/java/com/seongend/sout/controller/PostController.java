@@ -18,6 +18,12 @@ public class PostController {
         PostService.createPosts(requestDto);
     }
 
+    @PutMapping("/newpost/{postId}")
+    public Long updatePosts(@PathVariable Long postId, @RequestBody PostRequestDto requestDto) {
+        PostService.update(postId, requestDto);
+        return postId;
+    }
+
     @DeleteMapping("/{postId}")
     public Long deletePosts(@PathVariable Long postId) {
         PostRepository.deleteById(postId);

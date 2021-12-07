@@ -28,4 +28,9 @@ public class Post extends Timestamped{
         this.url = requestDto.getUrl();
         this.userId = 1L; // userId 가상 설정할 땐 1L
     }
+
+    public void update(PostRequestDto requestDto) {
+        this.content = requestDto.getContent();
+        this.url = requestDto.getUrl();
+    }
 }
