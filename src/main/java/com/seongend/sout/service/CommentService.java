@@ -13,18 +13,23 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class CommentService {
 
-    private final PostRepository PostRepository;
-    private final CommentRepository CommentRepository;
+    private final PostRepository postRepository;
+    private final CommentRepository commentRepository;
 
     @Transactional
     public void createComments(Long postId, CommentRequestDto requestDto, Long userId) throws NullPointerException {
 
-        Post post = PostRepository.findById(postId).orElse(null);
+        Post post = postRepository.findById(postId).orElse(null);
         if (post == null) {
             throw new NullPointerException("해당 게시글 정보가 존재하지 않습니다.");
         }
 
         Comment comment = new Comment(post, requestDto, userId);
-        CommentRepository.save(comment);
+        commentRepository.save(comment);
+    }
+
+    public Long deleteComments(Long commentId) {
+        commentRepository.deleteById(commentId);
+        return commentId;
     }
 }
