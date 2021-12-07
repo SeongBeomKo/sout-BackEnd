@@ -15,8 +15,8 @@ public class PostService {
     private final PostRepository PostRepository;
 
     @Transactional
-    public void createPosts(PostRequestDto requestDto) {
-        Post post = new Post(requestDto);
+    public void createPosts(PostRequestDto requestDto, Long userId) {
+        Post post = new Post(requestDto, userId);
         PostRepository.save(post);
     }
 

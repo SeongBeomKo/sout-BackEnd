@@ -2,8 +2,10 @@ package com.seongend.sout.controller;
 
 import com.seongend.sout.dto.PostRequestDto;
 import com.seongend.sout.repository.PostRepository;
+import com.seongend.sout.security.UserDetailsImpl;
 import com.seongend.sout.service.PostService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
@@ -14,8 +16,9 @@ public class PostController {
     private final PostService PostService;
 
     @PostMapping("/newpost")
-    public void createPosts(@RequestBody PostRequestDto requestDto) {
-        PostService.createPosts(requestDto);
+    public void createPosts(@RequestBody PostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        Long userId = userDetails.getUser().getId();
+        PostService.createPosts(requestDto, userId);
     }
 
     @PutMapping("/newpost/{postId}")

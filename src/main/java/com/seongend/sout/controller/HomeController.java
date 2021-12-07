@@ -1,6 +1,5 @@
 package com.seongend.sout.controller;
 
-import com.seongend.sout.dto.PostRequestDto;
 import com.seongend.sout.dto.PostResponseDto;
 import com.seongend.sout.service.HomeService;
 import lombok.RequiredArgsConstructor;

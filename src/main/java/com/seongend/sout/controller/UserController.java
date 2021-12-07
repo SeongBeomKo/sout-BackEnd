@@ -1,8 +1,8 @@
 package com.seongend.sout.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+//import com.fasterxml.jackson.core.JsonProcessingException;
 import com.seongend.sout.dto.SignupRequestDto;
-import com.seongend.sout.service.KakaoUserService;
+//import com.seongend.sout.service.KakaoUserService;
 import com.seongend.sout.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
