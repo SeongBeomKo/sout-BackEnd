@@ -18,10 +18,8 @@ public class PostController {
     @PostMapping("/newpost")
     public void createPosts(@RequestBody PostRequestDto requestDto,
                             @AuthenticationPrincipal UserDetailsImpl userDetails) {
-
         Long userId = userDetails.getUser().getId();
-        System.out.println(userId);
-        PostService.createPosts(requestDto);
+        PostService.createPosts(requestDto, userId);
     }
 
     @PutMapping("/newpost/{postId}")
@@ -33,6 +31,7 @@ public class PostController {
 
     @DeleteMapping("/{postId}")
     public Long deletePosts(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        System.out.println(postId);
         PostRepository.deleteById(postId);
         return postId;
     }

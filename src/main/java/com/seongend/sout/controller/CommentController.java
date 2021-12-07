@@ -1,6 +1,7 @@
 package com.seongend.sout.controller;
 
 import com.seongend.sout.dto.CommentRequestDto;
+import com.seongend.sout.entity.Comment;
 import com.seongend.sout.repository.CommentRepository;
 import com.seongend.sout.security.UserDetailsImpl;
 import com.seongend.sout.service.CommentService;
@@ -22,7 +23,7 @@ public class CommentController {
     }
 
     @DeleteMapping("/{postId}/{commentId}")
-    public Long deleteComments(@PathVariable Long commentId) {
+    public Long deleteComments(@PathVariable String postId, @PathVariable Long commentId) {
         CommentRepository.deleteById(commentId);
         return commentId;
     }
