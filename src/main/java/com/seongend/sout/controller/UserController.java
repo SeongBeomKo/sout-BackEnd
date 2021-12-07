@@ -25,7 +25,7 @@ public class UserController {
     @PutMapping("/setting/profile")
     public void editProfile(@RequestBody SignupRequestDto requestDto) { userService.editProfile(requestDto); }
 
-//    // kakao 로그인
+    // kakao 로그인
     @GetMapping("/user/kakao/callback")
     public void kakaoLogin(@RequestParam String code) throws JsonProcessingException {
         // authorizedCode: 카카오 서버로부터 받은 인가 코드

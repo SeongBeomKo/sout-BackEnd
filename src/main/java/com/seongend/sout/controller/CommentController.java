@@ -13,12 +13,14 @@ public class CommentController {
 
     private final CommentService commentService;
 
+    // 댓글 생성
     @PostMapping("/{postId}/comment")
     public void createComments(@PathVariable Long postId, @RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         Long userId = userDetails.getUser().getId();
         commentService.createComments(postId, requestDto, userId);
     }
 
+    // 댓글 삭제
     @DeleteMapping("/{postId}/{commentId}")
     public Long deleteComments(@PathVariable String postId, @PathVariable Long commentId) {
         commentService.deleteComments(commentId);

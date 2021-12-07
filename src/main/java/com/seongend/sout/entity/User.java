@@ -49,6 +49,8 @@ public class User {
     }
 
     public void update(SignupRequestDto requestDto, String enPassword) {
+        UserInfoValidator.validateUserInfoInput(requestDto);
+
         this.username = requestDto.getEmail();
         this.nickname = requestDto.getNickname();
         this.password = enPassword;

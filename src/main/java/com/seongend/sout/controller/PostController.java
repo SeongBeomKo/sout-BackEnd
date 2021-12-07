@@ -13,6 +13,7 @@ public class PostController {
 
     private final PostService postService;
 
+    // 글 작성
     @PostMapping("/newpost")
     public void createPosts(@RequestBody PostRequestDto requestDto,
                             @AuthenticationPrincipal UserDetailsImpl userDetails) {
@@ -20,6 +21,7 @@ public class PostController {
         postService.createPosts(requestDto, userId);
     }
 
+    // 글 수정
     @PutMapping("/newpost/{postId}")
     public Long updatePosts(@PathVariable Long postId, @RequestBody PostRequestDto requestDto,
                             @AuthenticationPrincipal UserDetailsImpl userDetails) {
@@ -27,6 +29,7 @@ public class PostController {
         return postId;
     }
 
+    // 글 삭제
     @DeleteMapping("/{postId}")
     public Long deletePosts(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         postService.deletePosts(postId);
