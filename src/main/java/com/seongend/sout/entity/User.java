@@ -1,6 +1,7 @@
 package com.seongend.sout.entity;
 
 import com.seongend.sout.dto.SignupRequestDto;
+import com.seongend.sout.validator.UserInfoValidator;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -32,6 +33,8 @@ public class User {
     private Long kakaoId;
 
     public User(SignupRequestDto requestDto, String enPassword){
+        UserInfoValidator.validateUserInfoInput(requestDto);
+
         this.username = requestDto.getEmail();
         this.nickname = requestDto.getNickname();
         this.password = enPassword;
