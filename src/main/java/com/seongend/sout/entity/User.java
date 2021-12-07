@@ -47,4 +47,11 @@ public class User {
         this.password = encodedPassword;
         this.kakaoId = kakaoId;
     }
+
+    public void update(SignupRequestDto requestDto, String enPassword) {
+        this.username = requestDto.getEmail();
+        this.nickname = requestDto.getNickname();
+        this.password = enPassword;
+        this.interest = requestDto.getInterest();
+    }
 }
