@@ -8,9 +8,9 @@ import com.seongend.sout.repository.CommentRepository;
 import com.seongend.sout.repository.PostRepository;
 import com.seongend.sout.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.support.PagedListHolder;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,30 +22,48 @@ public class HomeService {
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
 
-    @Transactional
-    public List<PostResponseDto> findAllPost() {
-        List<Post> posts = postRepository.findAll();
+    public List<PostResponseDto> findAllPosts(Pageable pageable) {
+        List<Post> posts = postRepository.findAllByOrderByModifiedAtDesc(pageable).getContent();
         List<PostResponseDto> allPosts = new ArrayList<>();
-        for(Post post : posts) {
-            List<CommentResponseDto> allComments = findAllComment(post.getId());
-            PostResponseDto responseDto = new PostResponseDto(
-                    userRepository.getById(post.getUserId()).getNickname(),
-                    post.getContent(),
-                    post.getId(),
-                    post.getModifiedAt(),
-                    post.getUrl(),
-                    allComments
-                    );
+        for (Post post : posts) {
+            PostResponseDto responseDto = createPostDto(post);
             allPosts.add(responseDto);
         }
         return allPosts;
     }
 
-    @Transactional
-    public List<CommentResponseDto> findAllComment(long postId) {
+    public List<PostResponseDto> searchPosts(String keyword, int pageNumber, int size) {
+        List<Post> posts = postRepository.findAllByOrderByModifiedAtDesc();
+        posts.removeIf(post -> !(userRepository.getById(post.getUserId()).getNickname().contains(keyword)
+                || post.getContent().contains(keyword)));
+        PagedListHolder<Post> page = new PagedListHolder<>(posts);
+        page.setPageSize(size);
+        page.setPage(pageNumber);
+        posts = page.getPageList();
+        List<PostResponseDto> searchedPosts = new ArrayList<>();
+        for (Post post : posts) {
+            PostResponseDto responseDto = createPostDto(post);
+            searchedPosts.add(responseDto);
+        }
+        return searchedPosts;
+    }
+
+    public PostResponseDto createPostDto(Post post) {
+        List<CommentResponseDto> allComments = findAllComments(post.getId());
+        return new PostResponseDto(
+                userRepository.getById(post.getUserId()).getNickname(),
+                post.getContent(),
+                post.getId(),
+                post.getModifiedAt(),
+                post.getUrl(),
+                allComments
+        );
+    }
+
+    public List<CommentResponseDto> findAllComments(long postId) {
         List<CommentResponseDto> allComments = new ArrayList<>();
         List<Comment> comments = commentRepository.findAllByPostId(postId);
-        for(Comment comment : comments)
+        for (Comment comment : comments)
             allComments.add(new CommentResponseDto(
                     userRepository.getById(comment.getUserId()).getNickname(),
                     comment.getContent(),
