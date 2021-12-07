@@ -26,7 +26,6 @@ public class HomeController {
 
     @GetMapping("/search")
     public List<PostResponseDto> getSearchedPost(@RequestParam String keyword, @RequestParam int page, @RequestParam int size) {
-        Pageable sortedByModifiedAtDesc = PageRequest.of(page, size, Sort.by("modifiedAt").descending());
-        return homeService.searchPosts(keyword, sortedByModifiedAtDesc);
+        return homeService.searchPosts(keyword, page, size);
     }
 }

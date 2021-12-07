@@ -32,15 +32,14 @@ public class HomeService {
         return allPosts;
     }
 
-    public List<PostResponseDto> searchPosts(String keyword, Pageable pageable) {
+    public List<PostResponseDto> searchPosts(String keyword, int pageNumber, int size) {
         List<Post> posts = postRepository.findAllByOrderByModifiedAtDesc();
         posts.removeIf(post -> !(userRepository.getById(post.getUserId()).getNickname().contains(keyword)
                 || post.getContent().contains(keyword)));
         PagedListHolder<Post> page = new PagedListHolder<>(posts);
-        page.setPageSize(pageable.getPageSize());
-        page.setPage(pageable.getPageNumber());
+        page.setPageSize(size);
+        page.setPage(pageNumber);
         posts = page.getPageList();
-        System.out.println(posts);
         List<PostResponseDto> searchedPosts = new ArrayList<>();
         for (Post post : posts) {
             PostResponseDto responseDto = createPostDto(post);
