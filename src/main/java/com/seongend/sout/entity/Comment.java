@@ -1,5 +1,6 @@
 package com.seongend.sout.entity;
 
+import com.seongend.sout.dto.CommentRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -22,4 +23,10 @@ public class Comment extends Timestamped{
 
     @Column(nullable = false)
     private Long userId;
+
+    public Comment(Post post, CommentRequestDto requestDto) {
+        this.post = post;
+        this.content = requestDto.getContent();
+        this.userId = 1L;
+    }
 }
