@@ -16,19 +16,23 @@ public class PostController {
     private final PostService PostService;
 
     @PostMapping("/newpost")
-    public void createPosts(@RequestBody PostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public void createPosts(@RequestBody PostRequestDto requestDto,
+                            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+
         Long userId = userDetails.getUser().getId();
-        PostService.createPosts(requestDto, userId);
+        System.out.println(userId);
+        PostService.createPosts(requestDto);
     }
 
     @PutMapping("/newpost/{postId}")
-    public Long updatePosts(@PathVariable Long postId, @RequestBody PostRequestDto requestDto) {
+    public Long updatePosts(@PathVariable Long postId, @RequestBody PostRequestDto requestDto,
+                            @AuthenticationPrincipal UserDetailsImpl userDetails) {
         PostService.update(postId, requestDto);
         return postId;
     }
 
     @DeleteMapping("/{postId}")
-    public Long deletePosts(@PathVariable Long postId) {
+    public Long deletePosts(@PathVariable Long postId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         PostRepository.deleteById(postId);
         return postId;
     }
