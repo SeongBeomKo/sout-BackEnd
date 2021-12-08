@@ -29,7 +29,7 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
     // 스프링 시큐리티
-    // testImplementation 'org.springframework.security:spring-security-test'
+    //testImplementation 'org.springframework.security:spring-security-test'
 
     // JWT
     implementation 'io.jsonwebtoken:jjwt-api:0.11.2'

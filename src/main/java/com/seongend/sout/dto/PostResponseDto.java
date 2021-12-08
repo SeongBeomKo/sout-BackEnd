@@ -19,6 +19,8 @@ public class PostResponseDto {
 
     private String url;
 
+    private String interest;
+
     private List<CommentResponseDto> commentList;
 
 

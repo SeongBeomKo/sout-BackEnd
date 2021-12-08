@@ -116,7 +116,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         skipPathList.add("GET,/signin");
 
         // main 페이지 허용
-        skipPathList.add("GET,/");
+        skipPathList.add("GET,/*");
         skipPathList.add("GET,/search");
 
         skipPathList.add("GET,/favicon.ico");
