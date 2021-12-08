@@ -56,6 +56,7 @@ public class HomeService {
                 post.getId(),
                 post.getModifiedAt(),
                 post.getUrl(),
+                userRepository.getById(post.getUserId()).getInterest(),
                 allComments
         );
     }
