@@ -1,19 +1,23 @@
 package com.seongend.sout.controller;
 
 //import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.JsonProcessingException;
+
 import com.seongend.sout.dto.SignupRequestDto;
-//import com.seongend.sout.service.KakaoUserService;
-import com.seongend.sout.service.KakaoUserService;
+import com.seongend.sout.dto.UserInfoDto;
+import com.seongend.sout.entity.User;
+import com.seongend.sout.security.UserDetailsImpl;
 import com.seongend.sout.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController
 public class UserController {
     private final UserService userService;
-    //private final KakaoUserService kakaoUserService;
 
     //회원가입
     @PostMapping("/user/signup")
@@ -25,10 +29,10 @@ public class UserController {
     @PutMapping("/setting/profile")
     public void editProfile(@RequestBody SignupRequestDto requestDto) { userService.editProfile(requestDto); }
 
-    // kakao 로그인
-//    @GetMapping("/user/kakao/callback")
-//    public void kakaoLogin(@RequestParam String code) throws JsonProcessingException {
-//        // authorizedCode: 카카오 서버로부터 받은 인가 코드
-//        kakaoUserService.kakaoLogin(code);
-//    }
+    // 회원 관련 정보 받기
+    @PostMapping("/userinfo")
+    public UserInfoDto getUserInfo(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        User user = userDetails.getUser();
+        return new UserInfoDto(user.getUsername(), user.getNickname(), user.getInterest(), user.getPassword());
+    }
 }
