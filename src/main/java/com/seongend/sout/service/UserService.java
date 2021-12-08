@@ -34,7 +34,6 @@ public class UserService {
         User user = userRepository.findByUsername(requestDto.getEmail()).orElseThrow(
                 () -> new NullPointerException("계정이 없습니다."));
 
-        String enPassword = passwordEncoder.encode(requestDto.getPassword());
-        user.update(requestDto, enPassword);
+        user.update(requestDto);
     }
 }

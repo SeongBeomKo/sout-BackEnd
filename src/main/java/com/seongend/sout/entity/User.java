@@ -49,12 +49,10 @@ public class User {
         this.kakaoId = kakaoId;
     }
 
-    public void update(SignupRequestDto requestDto, String enPassword) {
+    public void update(SignupRequestDto requestDto) {
         UserInfoValidator.validateUserInfoInput(requestDto);
 
-        this.username = requestDto.getEmail();
         this.nickname = requestDto.getNickname();
-        this.password = enPassword;
         this.interest = requestDto.getInterest();
     }
 }
