@@ -22,7 +22,7 @@ public class HomeController {
     //수정한 날짜 내림차순으로(최신순)
     //요청한 페이지와 페이지마다 포스트 개수를 지정해서 요청
     @GetMapping("/")
-    @ApiOperation("메인 화면")
+    @ApiOperation("메인 화면 - 모든 포스트 보여주기")
     public List<PostResponseDto> getAllPosts(@RequestParam int page, @RequestParam int size) {
         //@AuthenticationPrincipal UserDetailsImpl userDetails
         Pageable sortedByModifiedAtDesc = PageRequest.of(page, size, Sort.by("modifiedAt").descending());
@@ -33,6 +33,7 @@ public class HomeController {
     // 수정한 날짜 내림차순(최신순)
     // 요청한 페이지와 페이지마다 포스트 개수를 지정해서 요청
     @GetMapping("/search")
+    @ApiOperation("메인 화면 - 검색된 포스트 보여주기")
     public List<PostResponseDto> getSearchedPost(@RequestParam String keyword, @RequestParam int page, @RequestParam int size) {
         return homeService.searchPosts(keyword, page, size);
     }
