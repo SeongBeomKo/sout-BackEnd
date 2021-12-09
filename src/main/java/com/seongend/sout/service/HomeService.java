@@ -4,6 +4,7 @@ import com.seongend.sout.dto.CommentResponseDto;
 import com.seongend.sout.dto.PostResponseDto;
 import com.seongend.sout.entity.Comment;
 import com.seongend.sout.entity.Post;
+import com.seongend.sout.entity.User;
 import com.seongend.sout.repository.CommentRepository;
 import com.seongend.sout.repository.PostRepository;
 import com.seongend.sout.repository.UserRepository;
@@ -65,11 +66,17 @@ public class HomeService {
     public List<CommentResponseDto> findAllComments(long postId) {
         List<CommentResponseDto> allComments = new ArrayList<>();
         List<Comment> comments = commentRepository.findAllByPostId(postId);
-        for (Comment comment : comments)
+
+        for (Comment comment : comments) {
+            User user = userRepository.getById(comment.getUserId());
             allComments.add(new CommentResponseDto(
-                    userRepository.getById(comment.getUserId()).getNickname(),
+                    comment.getId(),
+                    user.getNickname(),
                     comment.getContent(),
-                    comment.getModifiedAt()));
+                    comment.getModifiedAt(),
+                    user.getUsername()
+                    ));
+        }
         return allComments;
     }
 }

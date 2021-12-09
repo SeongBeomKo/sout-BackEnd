@@ -1,6 +1,8 @@
 package com.seongend.sout.controller;
 
 import com.seongend.sout.dto.PostRequestDto;
+import com.seongend.sout.dto.PostResponseDto;
+import com.seongend.sout.entity.User;
 import com.seongend.sout.security.UserDetailsImpl;
 import com.seongend.sout.service.PostService;
 import io.swagger.annotations.ApiOperation;
@@ -17,10 +19,10 @@ public class PostController {
     // 글 작성
     @ApiOperation("포스트 작성 - 로그인 필요")
     @PostMapping("/newpost")
-    public void createPosts(@RequestBody PostRequestDto requestDto,
-                            @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        Long userId = userDetails.getUser().getId();
-        postService.createPosts(requestDto, userId);
+    public PostResponseDto createPosts(@RequestBody PostRequestDto requestDto,
+                                       @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        User user = userDetails.getUser();
+        return postService.createPosts(requestDto, user);
     }
 
     // 글 수정

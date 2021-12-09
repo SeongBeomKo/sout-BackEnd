@@ -9,9 +9,13 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class CommentResponseDto {
 
+    private Long commentId;
+
     private String nickname;
 
     private String content;
 
     private LocalDateTime modifiedAt;
+
+    private String email;
 }
