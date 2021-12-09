@@ -23,5 +23,6 @@ public class PostResponseDto {
 
     private List<CommentResponseDto> commentList;
 
+    private String email;
 
 }
