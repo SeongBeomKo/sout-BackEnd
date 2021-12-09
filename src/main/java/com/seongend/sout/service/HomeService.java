@@ -59,7 +59,7 @@ public class HomeService {
                 post.getUrl(),
                 userRepository.getById(post.getUserId()).getInterest(),
                 allComments,
-                userRepository.getById(post.getId()).getUsername()
+                userRepository.getById(post.getUserId()).getUsername()
         );
     }
 
