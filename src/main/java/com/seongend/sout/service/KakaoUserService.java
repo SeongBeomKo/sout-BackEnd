@@ -7,6 +7,7 @@ import com.seongend.sout.dto.KakaoUserInfoDto;
 import com.seongend.sout.entity.User;
 import com.seongend.sout.repository.UserRepository;
 import com.seongend.sout.security.UserDetailsImpl;
+import com.seongend.sout.security.jwt.JwtTokenUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -30,7 +31,7 @@ public class KakaoUserService {
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
 
-    public void kakaoLogin(String code) throws JsonProcessingException {
+    public String kakaoLogin(String code) throws JsonProcessingException {
         // 1. "인가 코드"로 "액세스 토큰" 요청
         String accessToken = getAccessToken(code);
 
@@ -40,8 +41,8 @@ public class KakaoUserService {
         // 3. 필요시에 회원가입
         User kakaoUser = registerKakaoUserIfNeeded(kakaoUserInfo);
 
-        // 4. 강제 로그인 처리
-        forceLogin(kakaoUser);
+        // 4. 로그인 JWT 토큰 발행
+        return jwtTokenCreate(kakaoUser);
     }
 
     private String getAccessToken(String code) throws JsonProcessingException {
@@ -53,7 +54,7 @@ public class KakaoUserService {
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add("grant_type", "authorization_code");
         body.add("client_id", "af4c2105b17debc9c5ba96f70c6ee0b9");
-        body.add("redirect_uri", "http://localhost:8080/user/kakao/callback");
+        body.add("redirect_uri", "http://localhost:3000/user/kakao/callback");
         body.add("code", code);
 
         // HTTP 요청 보내기
@@ -125,9 +126,15 @@ public class KakaoUserService {
         return kakaoUser;
     }
 
-    private void forceLogin(User kakaoUser) {
+    private String jwtTokenCreate(User kakaoUser) {
+        String TOKEN_TYPE = "BEARER";
+
         UserDetails userDetails = new UserDetailsImpl(kakaoUser);
         Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        UserDetailsImpl userDetails1 = ((UserDetailsImpl) authentication.getPrincipal());
+        final String token = JwtTokenUtils.generateJwtToken(userDetails1);
+        return TOKEN_TYPE + " " + token;
     }
 }
