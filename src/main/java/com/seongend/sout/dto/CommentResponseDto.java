@@ -15,7 +15,7 @@ public class CommentResponseDto {
 
     private String content;
 
-    private LocalDateTime modifiedAt;
+    private String modifiedAt;
 
     private String email;
 }

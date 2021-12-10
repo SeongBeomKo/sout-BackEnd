@@ -8,6 +8,7 @@ import com.seongend.sout.entity.User;
 import com.seongend.sout.repository.CommentRepository;
 import com.seongend.sout.repository.PostRepository;
 import com.seongend.sout.repository.UserRepository;
+import com.seongend.sout.timeconversion.TimeConversion;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,21 +21,20 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
 
-    public CommentResponseDto createComments(Long postId, CommentRequestDto requestDto, Long userId) throws NullPointerException {
-
+    @Transactional
+    public CommentResponseDto createComments(Long postId, CommentRequestDto requestDto, User user) throws NullPointerException {
         Post post = postRepository.findById(postId).orElse(null);
         if (post == null)
             throw new NullPointerException("해당 게시글 정보가 존재하지 않습니다.");
 
-        Comment comment = new Comment(post, requestDto, userId);
+        Comment comment = new Comment(post, requestDto, user.getId());
         commentRepository.save(comment);
-        User user = userRepository.findById(userId).orElseThrow(
-                () -> new NullPointerException("사용자가 없습니다"));
-        return new CommentResponseDto(comment.getId(),
-                                    user.getNickname(),
-                                    requestDto.getContent(),
-                                    comment.getModifiedAt(),
-                                    user.getUsername());
+        return new CommentResponseDto(
+                comment.getId(),
+                user.getNickname(),
+                comment.getContent(),
+                TimeConversion.timeConversion(comment.getModifiedAt())
+                , user.getUsername());
     }
 
     public Long deleteComments(Long commentId) {

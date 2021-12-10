@@ -2,15 +2,17 @@ package com.seongend.sout.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.seongend.sout.dto.PostRequestDto;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.*;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -84,45 +86,25 @@ class UserControllerTest {
     @Nested
     @DisplayName("JWT 토큰 인가 - 유저 정보 수정")
     class JWTtest {
-//        @Test
-//        @DisplayName("유저 정보 수정")
-//        void test1() throws JsonProcessingException {
-//            // given
-//            PostRequestDto postRequestDto = PostRequestDto.builder()
-//                    .content("asdfasf")
-//                    .url("asdasdfsadf")
-//                    .build();
-//
-//            String requestBody = objectMapper.writeValueAsString(postRequestDto);
-//            headers.set("Authorization", token);
-//            HttpEntity<String> request = new HttpEntity<>(requestBody, headers);
-//
-//            // when
-//            ResponseEntity<Object> response = restTemplate.postForEntity(
-//                    "/newpost",
-//                    request,
-//                    Object.class);
-//
-//            // then
-//            assertEquals(HttpStatus.OK, response.getStatusCode());
-//        }
-
         @Test
-        @DisplayName("글 작성")
+        @DisplayName("유저 정보 수정")
         void test2() throws JsonProcessingException {
             // given
-            PostRequestDto postRequestDto = PostRequestDto.builder()
-                    .content("asdfasf")
-                    .url("asdasdfsadf")
+            UserInfoDto userUpdate = UserInfoDto.builder()
+                    .id(null)
+                    .email("xxx@naver.com")
+                    .nickname("diddl61")
+                    .interest("Web-BackEnd")
+                    .password("tjddms1234")
                     .build();
 
-            String requestBody = objectMapper.writeValueAsString(postRequestDto);
+            String requestBody = objectMapper.writeValueAsString(userUpdate);
             headers.set("Authorization", token);
             HttpEntity<String> request = new HttpEntity<>(requestBody, headers);
 
             // when
             ResponseEntity<Object> response = restTemplate.postForEntity(
-                    "/newpost",
+                    "/userinfo",
                     request,
                     Object.class);
 

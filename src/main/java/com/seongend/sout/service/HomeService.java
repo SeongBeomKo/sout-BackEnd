@@ -8,6 +8,7 @@ import com.seongend.sout.entity.User;
 import com.seongend.sout.repository.CommentRepository;
 import com.seongend.sout.repository.PostRepository;
 import com.seongend.sout.repository.UserRepository;
+import com.seongend.sout.timeconversion.TimeConversion;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.data.domain.Pageable;
@@ -51,15 +52,17 @@ public class HomeService {
 
     public PostResponseDto createPostDto(Post post) {
         List<CommentResponseDto> allComments = findAllComments(post.getId());
+
+        User user = userRepository.getById(post.getUserId());
         return new PostResponseDto(
-                userRepository.getById(post.getUserId()).getNickname(),
+                user.getNickname(),
                 post.getContent(),
                 post.getId(),
-                post.getModifiedAt(),
+                TimeConversion.timeConversion(post.getModifiedAt()),
                 post.getUrl(),
-                userRepository.getById(post.getUserId()).getInterest(),
+                user.getInterest(),
                 allComments,
-                userRepository.getById(post.getUserId()).getUsername()
+                user.getUsername()
         );
     }
 
@@ -69,14 +72,16 @@ public class HomeService {
 
         for (Comment comment : comments) {
             User user = userRepository.getById(comment.getUserId());
+
             allComments.add(new CommentResponseDto(
                     comment.getId(),
                     user.getNickname(),
                     comment.getContent(),
-                    comment.getModifiedAt(),
+                    TimeConversion.timeConversion(comment.getModifiedAt()),
                     user.getUsername()
                     ));
         }
+
         return allComments;
     }
 }

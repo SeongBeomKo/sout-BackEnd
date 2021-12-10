@@ -15,7 +15,7 @@ public class PostResponseDto {
 
     private long postId;
 
-    private LocalDateTime modifiedAt;
+    private String modifiedAt;
 
     private String url;
 
