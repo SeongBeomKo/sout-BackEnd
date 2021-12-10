@@ -8,6 +8,7 @@ import com.seongend.sout.entity.User;
 import com.seongend.sout.repository.CommentRepository;
 import com.seongend.sout.repository.PostRepository;
 import com.seongend.sout.repository.UserRepository;
+import com.seongend.sout.timeconversion.TimeConversion;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.data.domain.Pageable;
@@ -57,7 +58,7 @@ public class HomeService {
                 user.getNickname(),
                 post.getContent(),
                 post.getId(),
-                post.getModifiedAt(),
+                TimeConversion.timeConversion(post.getModifiedAt()),
                 post.getUrl(),
                 user.getInterest(),
                 allComments,
@@ -76,7 +77,7 @@ public class HomeService {
                     comment.getId(),
                     user.getNickname(),
                     comment.getContent(),
-                    comment.getModifiedAt(),
+                    TimeConversion.timeConversion(comment.getModifiedAt()),
                     user.getUsername()
                     ));
         }

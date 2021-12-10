@@ -8,6 +8,7 @@ import com.seongend.sout.entity.Post;
 import com.seongend.sout.entity.User;
 import com.seongend.sout.repository.CommentRepository;
 import com.seongend.sout.repository.PostRepository;
+import com.seongend.sout.timeconversion.TimeConversion;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,7 +38,7 @@ public class PostService {
                 user.getNickname(),
                 post.getContent(),
                 post.getId(),
-                post.getModifiedAt(),
+                TimeConversion.timeConversion(post.getModifiedAt()),
                 post.getUrl(),
                 user.getInterest(),
                 commentResponseDtoList,
