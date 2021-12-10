@@ -19,17 +19,16 @@ public class CommentService {
 
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
+    private final UserRepository userRepository;
 
     @Transactional
     public CommentResponseDto createComments(Long postId, CommentRequestDto requestDto, User user) throws NullPointerException {
         Post post = postRepository.findById(postId).orElse(null);
-        if (post == null) {
+        if (post == null)
             throw new NullPointerException("해당 게시글 정보가 존재하지 않습니다.");
-        }
 
         Comment comment = new Comment(post, requestDto, user.getId());
         commentRepository.save(comment);
-
         return new CommentResponseDto(
                 comment.getId(),
                 user.getNickname(),
