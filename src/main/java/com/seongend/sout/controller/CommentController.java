@@ -1,6 +1,8 @@
 package com.seongend.sout.controller;
 
 import com.seongend.sout.dto.CommentRequestDto;
+import com.seongend.sout.dto.CommentResponseDto;
+import com.seongend.sout.entity.User;
 import com.seongend.sout.security.UserDetailsImpl;
 import com.seongend.sout.service.CommentService;
 import io.swagger.annotations.ApiOperation;
@@ -17,9 +19,9 @@ public class CommentController {
     // 댓글 생성
     @ApiOperation("포스트 별 댓글 작성 - 로그인 필요")
     @PostMapping("/api/{postId}/comment")
-    public void createComments(@PathVariable Long postId, @RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        Long userId = userDetails.getUser().getId();
-        commentService.createComments(postId, requestDto, userId);
+    public CommentResponseDto createComments(@PathVariable Long postId, @RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        User user = userDetails.getUser();
+        return commentService.createComments(postId, requestDto, user);
     }
 
     // 댓글 삭제
