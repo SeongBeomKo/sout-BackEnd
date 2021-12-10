@@ -21,6 +21,7 @@ import java.util.List;
 public class PostService {
 
     private final PostRepository postRepository;
+    private final CommentRepository commentRepository;
 
     @Transactional
     public PostResponseDto createPosts(PostRequestDto requestDto, User user) {
@@ -53,7 +54,10 @@ public class PostService {
         return post.getId();
     }
 
+    @Transactional
     public Long deletePosts(Long postId) {
+        Post post = postRepository.findById(postId).orElseThrow(() -> new IllegalArgumentException("게시물이 없습니다."));
+        commentRepository.deleteAllByPost(post);
         postRepository.deleteById(postId);
         return postId;
     }

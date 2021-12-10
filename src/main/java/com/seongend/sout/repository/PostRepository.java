@@ -10,4 +10,4 @@ import java.util.List;
 public interface PostRepository extends JpaRepository<Post, Long> {
     List<Post> findAllByOrderByModifiedAtDesc();
     Page<Post> findAllByOrderByModifiedAtDesc(Pageable pageable);
-}
+ }

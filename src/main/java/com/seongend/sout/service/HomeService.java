@@ -51,15 +51,17 @@ public class HomeService {
 
     public PostResponseDto createPostDto(Post post) {
         List<CommentResponseDto> allComments = findAllComments(post.getId());
+
+        User user = userRepository.getById(post.getUserId());
         return new PostResponseDto(
-                userRepository.getById(post.getUserId()).getNickname(),
+                user.getNickname(),
                 post.getContent(),
                 post.getId(),
                 post.getModifiedAt(),
                 post.getUrl(),
-                userRepository.getById(post.getUserId()).getInterest(),
+                user.getInterest(),
                 allComments,
-                userRepository.getById(post.getUserId()).getUsername()
+                user.getUsername()
         );
     }
 
@@ -69,6 +71,7 @@ public class HomeService {
 
         for (Comment comment : comments) {
             User user = userRepository.getById(comment.getUserId());
+
             allComments.add(new CommentResponseDto(
                     comment.getId(),
                     user.getNickname(),
@@ -77,6 +80,7 @@ public class HomeService {
                     user.getUsername()
                     ));
         }
+
         return allComments;
     }
 }
