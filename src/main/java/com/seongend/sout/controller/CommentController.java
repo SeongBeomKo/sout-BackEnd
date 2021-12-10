@@ -1,6 +1,7 @@
 package com.seongend.sout.controller;
 
 import com.seongend.sout.dto.CommentRequestDto;
+import com.seongend.sout.dto.CommentResponseDto;
 import com.seongend.sout.security.UserDetailsImpl;
 import com.seongend.sout.service.CommentService;
 import io.swagger.annotations.ApiOperation;
@@ -17,17 +18,13 @@ public class CommentController {
     // 댓글 생성
     @ApiOperation("포스트 별 댓글 작성 - 로그인 필요")
     @PostMapping("/api/{postId}/comment")
-    public void createComments(@PathVariable Long postId, @RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public CommentResponseDto createComments(@PathVariable Long postId, @RequestBody CommentRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         Long userId = userDetails.getUser().getId();
-        commentService.createComments(postId, requestDto, userId);
+        return commentService.createComments(postId, requestDto, userId);
     }
 
     // 댓글 삭제
     @ApiOperation("포스트 별 댓글 삭제 - 로그인 필요")
     @DeleteMapping("/api/{postId}/{commentId}")
-    public Long deleteComments(@PathVariable String postId, @PathVariable Long commentId) {
-        commentService.deleteComments(commentId);
-        return commentId;
-    }
-
+    public Long deleteComments(@PathVariable String postId, @PathVariable Long commentId) { return commentService.deleteComments(commentId); }
 }
