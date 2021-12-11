@@ -219,7 +219,7 @@ javax.persistence.TransactionRequiredException: No EntityManager with actual tra
     @DeleteMapping("/api/{postId}")
     @PostMapping("/api/{postId}/comment")
     @DeleteMapping("/api/{postId}/{commentId}")
-    // 총 3군데의 URI 수정 ps. 이 문제 진짜 아무리 쳐도 안나와요.. 해결하는데 10시간 걸림. star는 센스 아시져?
+    // 총 3군데의 URI 수정 ps. 이 문제 진짜 아무리 쳐도 안나와요.. 해결하는데 10시간 걸렸어요.. 같은 문제로 해결하셨다면 STAR 기대합니다..☆
 ```
 
 </details>
