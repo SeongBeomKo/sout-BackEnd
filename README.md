@@ -7,10 +7,14 @@
 
 <h3><b>🎫 프로젝트 소개 🎫</b></h3>
 개발자 정보 공유 커뮤니티! 개발자들의 살롱을 꿈꿉니다..⭐
+<br>Front-End Git Repository : https://github.com/mtae616/sout-FrontEnd
+
 <br><br>
 
 <h3><b>🎞 프로젝트 시연영상 🎞</b></h3>
+https://www.youtube.com/watch?v=Ltmke9IyPXo
 <br>
+
 ---
 
 <br>
