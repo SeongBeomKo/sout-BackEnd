@@ -109,7 +109,7 @@
 | **URI** | **RequestBody** | **ResponseBody** |
 | --- | --- | --- |
 | GET / | ?page="pagenum"&size="size" | \[{email : " ", nickname : " ", interest : " ", content: " ", postId : "", modifiedAt : "", url : "", commentList: \[{nickname : " ", content : " ", modifiedAt : ""}\]}\] |
-| GET /search/ | search?keyword\="keyword"&page="pagenum"&size="size" | \[{ email : " ", nickname : " ", interest : " ", content: " ", postId : "", modifiedAt : "", url : "" commentList: \[{ nickname : " ", content : " ", modifiedAt : "" }\] |
+| GET /search | search?keyword\="keyword"&page="pagenum"&size="size" | \[{ email : " ", nickname : " ", interest : " ", content: " ", postId : "", modifiedAt : "", url : "" commentList: \[{ nickname : " ", content : " ", modifiedAt : "" }\] |
 | POST /newpost | { content: " ", url : " "} , ?token\="token" | {email : " ", nickname : " ", interest : " ", content: " ", postId : "", modifiedAt : "", url : "", commentList: [{nickname : " ", content : " ", modifiedAt : ""}]} |
 | PUT /newpost/{postId} | { content: " ", url : " "} , ?token\="token" |   |
 | DELETE /api/{postId} | ?token\="token" |   |
